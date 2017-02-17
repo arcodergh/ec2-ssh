@@ -54,7 +54,7 @@ fi
 if [ -z "$AWS_DEF_SSHKEY" ]; then
   sshkey="$AWS_DEF_SSHKEY"
 else
-  sshkey="~/.ssh/aws/default.pem"
+  sshkey="$HOME/.ssh/aws/default.pem"
 fi
 # support tag:value format for identifying instances
 IFS=":"; declare -a tagparts=($inst)
@@ -77,4 +77,4 @@ cmd="echo \\\". ~/.bashrc && PS1='\[\e]0;$inst: \w\\\a\]\[\\\033[01;32m\]$inst\[
 if test "${@:2}"; then
     cmd="${@:2}"
 fi
-test -n "$host" && echo "Connecting to $user@$host." && exec sh -c "ssh -i $sshkey -t $user@$host \"$cmd\""
+test -n "$host" && echo "Connecting to $user@$host." && exec sh -c "ssh -i $sshkey $user@$host \"$cmd\""

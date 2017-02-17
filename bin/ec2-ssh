@@ -43,13 +43,19 @@ user="${hostparts[0]}"
 
 if [ -z "$inst" ]; then
   inst="$1"
-  if [ -z "$AWS_DEF_USER" ]; then
-     user="$AWS_DEF_USER"
-  else
-     user="ubuntu"
-  fi
 fi
 
+if [ -z "$AWS_DEF_USER" ]; then
+  user="$AWS_DEF_USER"
+else
+  user="ubuntu"
+fi
+
+if [ -z "$AWS_DEF_SSHKEY" ]; then
+  sshkey="$AWS_DEF_SSHKEY"
+else
+  sshkey="~/.ssh/aws/default.pem"
+fi
 # support tag:value format for identifying instances
 IFS=":"; declare -a tagparts=($inst)
 
@@ -71,4 +77,4 @@ cmd="echo \\\". ~/.bashrc && PS1='\[\e]0;$inst: \w\\\a\]\[\\\033[01;32m\]$inst\[
 if test "${@:2}"; then
     cmd="${@:2}"
 fi
-test -n "$host" && echo "Connecting to $host." && exec sh -c "ssh -t $user@$host \"$cmd\""
+test -n "$host" && echo "Connecting to $user@$host." && exec sh -c "ssh -i $sshkey -t $user@$host \"$cmd\""

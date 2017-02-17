@@ -43,7 +43,11 @@ user="${hostparts[0]}"
 
 if [ -z "$inst" ]; then
   inst="$1"
-  user="ubuntu"
+  if [ -z "$AWS_DEF_USER" ]; then
+     user="$AWS_DEF_USER"
+  else
+     user="ubuntu"
+  fi
 fi
 
 # support tag:value format for identifying instances

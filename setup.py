@@ -52,7 +52,7 @@ from setuptools import setup
 
 setup(
     name = "ec2-ssh",
-    version = "1.2.1",
+    version = "1.2.2",
     author = "Shayne Sweeney",
     author_email = "shayne@instagram.com",
     description = "SSH into EC2 instances via tag name",

@@ -45,8 +45,8 @@ if [ -z "$inst" ]; then
   inst="$1"
 fi
 
-if [ -n "$EC2_DEF_USER" ]; then
-  user="$EC2_DEF_USER"
+if [ -n "$user" ]; then
+  user="$user"
 else
   user="ubuntu"
 fi

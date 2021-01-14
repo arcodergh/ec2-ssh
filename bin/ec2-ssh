@@ -45,10 +45,10 @@ if [ -z "$inst" ]; then
   inst="$1"
 fi
 
-if [ -n "$user" ]; then
-  user="$user"
-else
-  user="ubuntu"
+len="${#hostparts[@]}"
+
+if [ "$len" -eq "1" ]; then
+  user="ec2-user"
 fi
 
 if [ -n "$EC2_DEF_SSHKEY" ]; then

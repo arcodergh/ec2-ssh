@@ -13,20 +13,20 @@ _ec2 = None
 
 
 def short_usage():
-    print >>stderr, """Usage: ec2-host [-k KEY] [-s SECRET] [-r REGION] [-t TAG] [NAME]
+    print("""Usage: ec2-host [-k KEY] [-s SECRET] [-r REGION] [-t TAG] [NAME]
     ec2-host django8 => ec2-53-19-113-121.compute-1.amazonaws.com
-Try `ec2-ssh --help' for more information."""
+Try `ec2-ssh --help' for more information.""")
 
 
 def full_usage():
-    print >>stderr, """Usage: ec2-host [-k KEY] [-s SECRET] [-r REGION] [-t TAG] [NAME]
+    print("""Usage: ec2-host [-k KEY] [-s SECRET] [-r REGION] [-t TAG] [NAME]
 Prints server host name.
 
       --help                 display this help and exit
   -k, --aws-key KEY          Amazon EC2 Key, defaults to ENV[AWS_ACCESS_KEY_ID]
   -s, --aws-secret SECRET    Amazon EC2 Secret, defaults to ENV[AWS_SECRET_ACCESS_KEY]
   -r, --region REGION        Amazon EC2 Region, defaults to us-east-1 or ENV[AWS_EC2_REGION]
-  -t, --tag TAG              Tag name for searching, defaults to 'Name'"""
+  -t, --tag TAG              Tag name for searching, defaults to 'Name'""")
 
 
 def ec2_active_instances(label_tag, filters):
@@ -50,8 +50,8 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hLk:s:r:t:",
                                          ["help", "aws-key=", "aws-secret=", "region=", "tag="])
-    except getopt.GetoptError, err:
-        print >>sys.stderr, err
+    except err:
+        print(err)
         short_usage()
         sys.exit(2)
 
@@ -75,14 +75,12 @@ def main(argv):
 
     if not aws_key or not aws_secret:
         if not aws_key:
-            print >>sys.stderr,\
-            "AWS_ACCESS_KEY_ID not set in environment and not",\
-            "specified by --aws-key KEY or -k KEY"
+            print("AWS_ACCESS_KEY_ID not set in environment and not specified by --aws-key KEY or -k KEY")
+            
 
         if not aws_secret:
-            print >>sys.stderr,\
-            "AWS_SECRET_ACCESS_KEY not set in environment and not",\
-            "specified by --aws-secret SECRET or -s SECRET"
+            print("AWS_SECRET_ACCESS_KEY not set in environment and not specified by --aws-secret SECRET or -s SECRET")
+            
 
         short_usage()
         sys.exit(2)
@@ -100,7 +98,7 @@ def main(argv):
     if argc == 1:
         filters['tag:%s' % tag] = args[0]
     elif argc > 1:
-        print >>stderr, "Warning: more than one name given"
+        print("Warning: more than one name given")
         sys.exit(1)
         return
 
@@ -109,18 +107,18 @@ def main(argv):
     numinstances = len(instances)
 
     if numinstances == 1:
-        print instances[0][1]  # [1] = dns
+        print(instances[0][1])  # [1] = dns
 
         sys.exit(0)
         return
     elif numinstances == 0 or numinstances > 1:
         for pair in sorted(instances, key=lambda p: p[0]):
-            print "%s\t%s" % pair
+            print("%s\t%s" % pair)
 
         sys.exit(0)
         return
     else:
-        print >>stderr, 'Unable to match "%s"' % args[0]
+        print('Unable to match "%s"' % args[0])
         short_usage()
 
         sys.exit(1)
